@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   title: "ProblemBank",
   description: "Find inspiration for your next build with vetted ideas and step-by-step guidance",
   icons: {
-    icon: "/images/hero.png",
+    icon: "/images/black%20logo%20mark%20size=48@2x.png",
   },
   openGraph: {
     type: 'website',
