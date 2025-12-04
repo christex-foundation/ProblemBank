@@ -123,7 +123,7 @@ export default function Home() {
       {/* Hero Section */}
       <main className="relative z-30 flex flex-col items-center justify-center min-h-screen px-4 md:px-8 pb-50">
         {/* Hackathon Stage Banner */}
-        <div className="w-full top-8 left-0 right-0 z-40 mb-30 mt-10">
+        <div className="w-full top-8 left-0 right-0 z-10 mb-30 mt-10">
           <HackathonStageBanner />
         </div>
         {/* PixelBlast Background with Feathered Hero Exclusion - Only in Hero */}
@@ -414,7 +414,7 @@ const ParallaxLaunchpadSection = memo(function ParallaxLaunchpadSection() {
   ] as const;
 
   return (
-    <section className="relative z-40 w-full py-12 md:py-16 lg:py-20">
+    <section className="relative z-10 w-full py-12 md:py-16 lg:py-20">
       <div className="mt-12 md:mt-16 lg:mt-20 mx-auto max-w-7xl px-4 md:px-8">
         <div ref={ref} className="bg-[#121212] overflow-hidden rounded-[28px] md:rounded-[40px] lg:rounded-[56px]">
           <div className="px-4 md:px-8 py-24 md:py-32">
@@ -548,7 +548,7 @@ const BuilderKitsSection = memo(function BuilderKitsSection() {
 
         {/* Cards Grid (derived from first four resources kits) */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 items-stretch">
-          {featuredKits.map((k) => {
+          {featuredKits.map((k, idx) => {
             const handleClick = () => {
               if (k.title === 'PRD Kit') {
                 setPrdModalOpen(true);
@@ -561,7 +561,7 @@ const BuilderKitsSection = memo(function BuilderKitsSection() {
 
             return (
               <div
-                key={k.title}
+                key={`${k.title}-${idx}`}
                 className="relative border border-[#e8ddd0] shadow-sm transition-all duration-200 hover:shadow-md hover:border-[#d8cdbc] overflow-hidden rounded-[28px] md:rounded-[34px] lg:rounded-[38px]"
                 style={{
                   backgroundColor: k.bg,
@@ -679,7 +679,7 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
   }, []);
 
   return (
-    <section className="relative z-40 w-full py-12 md:py-16 lg:py-20 col">
+    <section className="relative z-10 w-full py-12 md:py-16 lg:py-20 col">
       <div className="-mt-4 md:-mt-8 lg:-mt-12 mx-auto max-w-7xl px-4 md:px-8">
         <div ref={ref} className="bg-[#121212] overflow-hidden rounded-[28px] md:rounded-[40px] lg:rounded-[56px]">
           <div className="px-4 md:px-8 py-16 md:py-20 lg:py-20">

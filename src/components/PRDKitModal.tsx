@@ -628,7 +628,7 @@ ${impactGoal}`,
       {/* Modal */}
       <div
         className="relative w-full max-w-4xl mx-auto border rounded-[24px] shadow-lg"
-        style={{ backgroundColor: '#fffaf3', borderColor: '#e8ddd0' }}
+        style={{ backgroundColor: '#fffaf3', borderColor: '#e8ddd0', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}
       >
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: '#e8ddd0' }}>
@@ -687,7 +687,7 @@ ${impactGoal}`,
         )}
 
         {/* Content */}
-        <div className="px-5 py-5 max-h-[70vh] overflow-y-auto">
+        <div className="px-5 py-5 overflow-y-auto flex-1">
           {/* Step 0: Core Concept */}
           {step === 0 && (
             <div className="space-y-6">

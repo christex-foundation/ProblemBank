@@ -5,6 +5,7 @@ import TrackOptionsSection from '../../components/big5/TrackOptionsSection';
 import FocusAreasSection from '../../components/big5/FocusAreasSection';
 import JudgingCriteria from '../../components/big5/JudgingCriteria';
 import PrizesSection from '../../components/big5/PrizesSection';
+import ApplicationCTA from '../../components/big5/ApplicationCTA';
 
 export default function Big5Page() {
   return (
@@ -39,6 +40,9 @@ export default function Big5Page() {
 
        {/* Prizes Section */}
        <PrizesSection />
+
+       {/* Application CTA Section */}
+       <ApplicationCTA />
     </div>
   );
 }

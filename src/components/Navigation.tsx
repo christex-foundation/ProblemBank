@@ -21,6 +21,7 @@ const Navigation: React.FC<NavigationProps> = ({
     { label: 'Ideas', href: '/ideas' },
     { label: 'Resources', href: '/resources' },
     { label: 'Big 5 Hackathon', href: '/big5' },
+    { label: 'Civic Hackathon', href: '/civic-hackathon' },
     // { label: 'Find Team', href: '/find-a-team' },
     { label: 'About', href: '/about' },
   ] as const;
