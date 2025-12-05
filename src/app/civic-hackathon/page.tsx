@@ -2,9 +2,7 @@
 import { Navigation } from '../../components';
 import CivicHero from '../../components/civic/CivicHero';
 import AboutSection from '../../components/civic/AboutSection';
-import EventTimeline from '../../components/civic/EventTimeline';
 import ChallengeThemes from '../../components/civic/ChallengeThemes';
-import PartnersSection from '../../components/civic/PartnersSection';
 import RegistrationCTA from '../../components/civic/RegistrationCTA';
 
 export default function CivicHackathonPage() {
@@ -32,14 +30,8 @@ export default function CivicHackathonPage() {
       {/* About Section */}
       <AboutSection />
 
-      {/* Event Timeline */}
-      <EventTimeline />
-
       {/* Challenge Themes */}
       <ChallengeThemes />
-
-      {/* Partners Section */}
-      <PartnersSection />
 
       {/* Registration CTA */}
       <RegistrationCTA />

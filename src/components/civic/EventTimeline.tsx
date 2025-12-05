@@ -39,7 +39,7 @@ export default function EventTimeline() {
   ];
 
   return (
-    <section className="relative z-30 w-full py-16 md:py-24 bg-[#121212]">
+    <section className="relative w-full py-16 md:py-24 bg-[#121212]">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         {/* Heading */}
         <h2

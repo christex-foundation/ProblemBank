@@ -1,8 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const CivicRegistrationModal = dynamic(() => import('./CivicRegistrationModal'), {
+  ssr: false,
+});
 
 export default function CivicHero() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [countdown, setCountdown] = useState<{
     days: number;
     hours: number;
@@ -16,7 +22,7 @@ export default function CivicHero() {
   });
 
   useEffect(() => {
-    const targetDate = new Date('2025-03-15T09:00:00Z'); // Customize event date
+    const targetDate = new Date('2025-12-11T09:00:00Z'); // Customize event date
 
     const updateCountdown = () => {
       const now = new Date();
@@ -37,24 +43,23 @@ export default function CivicHero() {
   }, []);
 
   return (
-    <section className="relative z-30 min-h-screen flex flex-col items-center justify-center px-4 md:px-8 pt-32 pb-20">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-4 md:px-8 pt-32 pb-20">
       {/* Event Badge */}
-      <div className="mb-8 inline-flex items-center gap-2 rounded-full border-2 border-[#1e1e1e] bg-[#E6B800] px-6 py-2">
-        <span
-          className="inline-block"
-          style={{
-            width: 20,
-            height: 20,
-            backgroundColor: '#1e1e1e',
-            WebkitMaskImage: 'url(/images/calendar-blank.svg)',
-            maskImage: 'url(/images/calendar-blank.svg)',
-            WebkitMaskSize: 'contain',
-            maskSize: 'contain',
-          }}
-        />
-        <span style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700, color: '#1e1e1e' }}>
-          CIVIC INNOVATION EVENT
-        </span>
+      <div className="mb-8 flex justify-center">
+        <div className="inline-flex items-center gap-4 rounded-full border-2 border-[#1e1e1e] bg-[#1e1e1e] px-8 py-4">
+          <Image
+            src="/images/Festival Logo.png"
+            alt="Festival Logo"
+            width={60}
+            height={60}
+            className="inline-block"
+            priority
+            quality={90}
+          />
+          <span style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700, color: '#ffffff' }}>
+            CIVIC INNOVATION EVENT
+          </span>
+        </div>
       </div>
 
       {/* Main Title */}
@@ -69,7 +74,7 @@ export default function CivicHero() {
             display: 'block',
           }}
         >
-          SALONE CIVIC
+          CIVIC YOUTH
         </div>
         <div
           className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-none"
@@ -78,6 +83,18 @@ export default function CivicHero() {
             fontWeight: 500,
             color: '#1e1e1e',
             transform: 'rotate(1.5deg)',
+            display: 'block',
+          }}
+        >
+          INNOVATION
+        </div>
+        <div
+          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl leading-none"
+          style={{
+            fontFamily: 'Decoy, sans-serif',
+            fontWeight: 500,
+            color: '#1e1e1e',
+            transform: 'rotate(-1deg)',
             display: 'block',
           }}
         >
@@ -90,13 +107,13 @@ export default function CivicHero() {
         className="text-xl md:text-2xl text-center max-w-3xl mb-12"
         style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#403f3e' }}
       >
-        Building Digital Solutions for Sierra Leone's Future
+        National Civic Festival — Empowering Youth to Shape Sierra Leone&apos;s Future
       </p>
 
       {/* Event Details Card */}
       <div
-        className="w-full max-w-2xl border-2 border-[#1e1e1e] rounded-[28px] md:rounded-[38px] bg-white p-8 md:p-12 mb-12"
-        style={{ transform: 'rotate(-1deg)' }}
+        className="w-full max-w-2xl border-2 border-[#1e1e1e] rounded-[28px] md:rounded-[38px] p-8 md:p-12 mb-12"
+        style={{ transform: 'rotate(-1deg)', backgroundColor: '#513f2a' }}
       >
         {/* Speckled texture overlay */}
         <div
@@ -110,75 +127,68 @@ export default function CivicHero() {
 
         <div className="relative z-10">
           {/* Date & Location */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span
-                  className="inline-block"
-                  style={{
-                    width: 24,
-                    height: 24,
-                    backgroundColor: '#1e1e1e',
-                    WebkitMaskImage: 'url(/images/calendar-blank.svg)',
-                    maskImage: 'url(/images/calendar-blank.svg)',
-                    WebkitMaskSize: 'contain',
-                    maskSize: 'contain',
-                  }}
-                />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+            <div className="text-center md:text-left">
+              <div className="inline-flex items-center gap-2 mb-3">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="6" width="18" height="15" rx="2" stroke="white" strokeWidth="2"/>
+                  <path d="M3 10H21" stroke="white" strokeWidth="2"/>
+                  <path d="M8 3V7" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M16 3V7" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
                 <span
                   style={{
                     fontFamily: 'Raleway, sans-serif',
                     fontWeight: 700,
-                    fontSize: '14px',
+                    fontSize: '12px',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
+                    letterSpacing: '0.1em',
+                    color: '#ffffff',
+                    opacity: 0.8,
                   }}
                 >
                   Date
                 </span>
               </div>
-              <p style={{ fontFamily: 'Decoy, sans-serif', fontSize: '24px', fontWeight: 500 }}>
-                March 15-17, 2025
+              <p style={{ fontFamily: 'Decoy, sans-serif', fontSize: '28px', fontWeight: 500, color: '#ffffff', lineHeight: 1.2 }}>
+                December 11-13, 2025
               </p>
             </div>
 
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span
-                  className="inline-block"
-                  style={{
-                    width: 24,
-                    height: 24,
-                    backgroundColor: '#1e1e1e',
-                    WebkitMaskImage: 'url(/images/6708d7e1e82809f4e18f8e05_flag_120.webp)',
-                    maskImage: 'url(/images/6708d7e1e82809f4e18f8e05_flag_120.webp)',
-                    WebkitMaskSize: 'contain',
-                    maskSize: 'contain',
-                  }}
-                />
+            <div className="text-center md:text-left">
+              <div className="inline-flex items-center gap-2 mb-3">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 21C16.4183 21 20 17.4183 20 13C20 8.58172 16.4183 5 12 5C7.58172 5 4 8.58172 4 13C4 17.4183 7.58172 21 12 21Z" stroke="white" strokeWidth="2"/>
+                  <path d="M12 9V13L15 15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                </svg>
                 <span
                   style={{
                     fontFamily: 'Raleway, sans-serif',
                     fontWeight: 700,
-                    fontSize: '14px',
+                    fontSize: '12px',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.05em',
+                    letterSpacing: '0.1em',
+                    color: '#ffffff',
+                    opacity: 0.8,
                   }}
                 >
                   Location
                 </span>
               </div>
-              <p style={{ fontFamily: 'Decoy, sans-serif', fontSize: '24px', fontWeight: 500 }}>
-                Freetown, SL
+              <p style={{ fontFamily: 'Decoy, sans-serif', fontSize: '28px', fontWeight: 500, color: '#ffffff', lineHeight: 1.2 }}>
+                Miatta Conference Center
+              </p>
+              <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: '14px', fontWeight: 600, color: '#ffffff', opacity: 0.7, marginTop: '4px' }}>
+                Freetown, Sierra Leone
               </p>
             </div>
           </div>
 
           {/* Countdown */}
-          <div className="border-t-2 border-gray-200 pt-6">
+          <div className="border-t-2 border-white/20 pt-6">
             <p
               className="text-center mb-4"
-              style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700, fontSize: '14px' }}
+              style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700, fontSize: '14px', color: '#ffffff' }}
             >
               EVENT STARTS IN
             </p>
@@ -189,13 +199,13 @@ export default function CivicHero() {
                   <div key={unit} className="text-center">
                     <div
                       className="text-3xl md:text-5xl mb-1"
-                      style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#1e1e1e' }}
+                      style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#ffffff' }}
                     >
                       {String(value).padStart(2, '0')}
                     </div>
                     <div
                       className="text-xs md:text-sm"
-                      style={{ fontFamily: 'Raleway, sans-serif', opacity: 0.6 }}
+                      style={{ fontFamily: 'Raleway, sans-serif', color: '#ffffff', opacity: 0.6 }}
                     >
                       {unit}
                     </div>
@@ -208,9 +218,9 @@ export default function CivicHero() {
       </div>
 
       {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-        <a
-          href="#register"
+      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md mx-auto justify-center">
+        <button
+          onClick={() => setIsModalOpen(true)}
           className="group relative overflow-hidden w-full px-8 py-4 rounded-full bg-[#E6B800] border-2 border-[#1e1e1e] text-[#1e1e1e] font-medium text-lg text-center transition-all duration-300 hover:scale-105"
         >
           <div
@@ -225,10 +235,10 @@ export default function CivicHero() {
           <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
             Register Now
           </span>
-        </a>
+        </button>
 
-        <a
-          href="#learn-more"
+        {/* <a
+          href="/"
           className="group relative overflow-hidden w-full px-8 py-4 rounded-full bg-transparent border-2 border-gray-400 text-gray-700 font-medium text-lg text-center transition-all duration-300 hover:scale-105"
         >
           <div
@@ -241,10 +251,13 @@ export default function CivicHero() {
           />
           <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100 rounded-full" />
           <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-            Learn More
+            View Ideas
           </span>
-        </a>
+        </a> */}
       </div>
+
+      {/* Registration Modal */}
+      <CivicRegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

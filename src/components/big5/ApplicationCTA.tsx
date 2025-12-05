@@ -44,7 +44,7 @@ const ApplicationCTA = memo(function ApplicationCTA() {
                   }}
                 />
                 <span style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700, color: '#1e1e1e' }}>
-                  Applications Open: 26 Nov – 10 Dec 2025
+                  Applications Open: 26 Nov – 6 Dec 2025
                 </span>
               </div>
 

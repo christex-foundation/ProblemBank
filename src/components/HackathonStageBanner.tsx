@@ -64,7 +64,7 @@ const HACKATHON_STAGES: HackathonStage[] = [
     id: 'final-hackathon',
     title: 'Hackathon Started!',
     startDate: new Date('2025-11-26T00:00:00Z'),
-    endDate: new Date('2025-12-10T23:59:59Z'),
+    endDate: new Date('2025-12-06T23:59:59Z'),
     description: 'Two-Week Innovation Sprint: Build Solutions, Refine Prototypes, Showcase Your Work, and Compete for Prizes!',
     status: 'active'
   }

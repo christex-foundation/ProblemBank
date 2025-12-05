@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState, useRef, memo } from 'react';
 import { kits as kitsData, slugifyTitle } from '../lib/kits';
 import HackathonStageBanner from '../components/HackathonStageBanner';
+import CivicHackathonBanner from '../components/CivicHackathonBanner';
 import FAQSection from '../components/FAQSection';
 import PRDKitModal from '../components/PRDKitModal';
 import PitchMasterKitModal from '../components/PitchMasterKitModal';
@@ -119,6 +120,11 @@ export default function Home() {
 
       {/* Shared Navigation */}
       <Navigation logoText="ProblemBank" />
+
+      {/* Civic Hackathon Banner */}
+      <div className="relative z-40">
+        <CivicHackathonBanner />
+      </div>
 
       {/* Hero Section */}
       <main className="relative z-30 flex flex-col items-center justify-center min-h-screen px-4 md:px-8 pb-50">
@@ -644,7 +650,7 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
 
   useEffect(() => {
     const START_DATE = new Date('2025-11-26T00:00:00Z'); // Sierra Leone (UTC+0)
-    const END_DATE = new Date('2025-12-10T00:00:00Z'); // End date start-of-day
+    const END_DATE = new Date('2025-12-06T00:00:00Z'); // End date start-of-day
 
     const tick = () => {
       const now = new Date();
@@ -747,7 +753,7 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
                 </p>
                 {/* Date */}
                 <p className="mt-4 text-center text-sm md:text-base" style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 900, fontSize: '28px' }}>
-                  26 Nov – 10 Dec 2025
+                  26 Nov – 6 Dec 2025
                 </p>
                 {/* Countdown */}
                 <div className="mt-6 flex flex-col items-center">
@@ -776,7 +782,7 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
               </div>
             </div>
 
-            {/* Learn More CTA centered */}
+            {/* View Ideas CTA centered */}
             <div className="mt-10 flex justify-center">
               <a
                 href="/big5"
@@ -787,7 +793,7 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
                   style={{ backgroundImage: 'url(/images/6707b45e1c28f88fc781209a_noise.webp)', backgroundSize: '200px 200px', backgroundRepeat: 'repeat' }}
                 />
                 <div className="absolute inset-0 bg-[#f7efe3] transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100 rounded-full" />
-                <span className="relative z-10 transition-colors duration-300 group-hover:text-[#403f3e]">Learn More →</span>
+                <span className="relative z-10 transition-colors duration-300 group-hover:text-[#403f3e]">View Ideas →</span>
               </a>
             </div>
           </div>

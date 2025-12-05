@@ -2,7 +2,7 @@
 
 export default function AboutSection() {
   return (
-    <section id="learn-more" className="relative z-30 w-full py-16 md:py-24">
+    <section id="learn-more" className="relative w-full py-16 md:py-24">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         {/* Heading */}
         <h2
@@ -38,15 +38,16 @@ export default function AboutSection() {
                 className="text-3xl mb-4"
                 style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#1e1e1e' }}
               >
-                Our Vision
+                The Challenge
               </h3>
               <p
                 className="text-base leading-relaxed"
                 style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#403f3e' }}
               >
-                The Salone Civic Hackathon brings together innovators, developers, designers, and civic leaders
-                to collaborate on technology solutions that address Sierra Leone's most pressing challenges.
-                Together, we're building a more connected, efficient, and inclusive society.
+                Despite ongoing national reforms, young people—the country&apos;s largest demographic group
+                (approximately 70% of the population under age 35)—remain under-engaged in shaping national
+                narratives, policies, and solutions. The Civic Youth Innovation Hackathon seeks to address persistent
+                civic gaps by enabling youth-driven innovations across the Six Civic Pillars.
               </p>
             </div>
           </div>
@@ -77,23 +78,23 @@ export default function AboutSection() {
               >
                 <li className="flex items-start gap-2">
                   <span className="text-[#E6B800] text-xl">✦</span>
-                  <span>Software Developers & Engineers</span>
+                  <span>Young Innovators & Creators</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#E6B800] text-xl">✦</span>
-                  <span>UI/UX Designers & Creative Professionals</span>
+                  <span>Tech Developers & Designers</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#E6B800] text-xl">✦</span>
-                  <span>Data Scientists & Analysts</span>
+                  <span>Content Creators & Storytellers</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#E6B800] text-xl">✦</span>
-                  <span>Students & Early-Career Professionals</span>
+                  <span>Civic Activists & Community Leaders</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-[#E6B800] text-xl">✦</span>
-                  <span>Community Organizers & Civic Leaders</span>
+                  <span>Students & Youth Organizations</span>
                 </li>
               </ul>
             </div>
@@ -103,19 +104,22 @@ export default function AboutSection() {
         {/* Stats Section */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
-            { value: '48', label: 'Hours of Innovation' },
-            { value: '100+', label: 'Participants' },
-            { value: '$10K', label: 'In Prizes' },
-            { value: '5+', label: 'Challenge Tracks' },
+            { value: '15-30', label: 'Age Range' },
+            { value: '6', label: 'Civic Pillars' },
+            { value: '$1K', label: 'Prize Pool' },
+            { value: '10+', label: 'Ideas Provided' },
           ].map((stat, idx) => (
             <div
               key={stat.label}
-              className="text-center p-6 border border-[#e8ddd0] rounded-[20px] bg-white"
-              style={{ transform: `rotate(${[-1, 0.5, -0.5, 1][idx]}deg)` }}
+              className="text-center p-6 rounded-[20px]"
+              style={{
+                transform: `rotate(${[-1, 0.5, -0.5, 1][idx]}deg)`,
+                backgroundColor: '#f2e8dc'
+              }}
             >
               <div
                 className="text-4xl md:text-5xl mb-2"
-                style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#E6B800' }}
+                style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#1e1e1e' }}
               >
                 {stat.value}
               </div>

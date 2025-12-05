@@ -53,7 +53,7 @@ export default function Big5SubmissionForm() {
       if (response.ok) {
         const data = await response.json();
         // Extract title from each idea - API returns 'items' not 'ideas'
-        const ideaTitles = data.items?.map((idea: any) => ({
+        const ideaTitles = data.items?.map((idea: { id: string; title: string }) => ({
           id: idea.id,
           title: idea.title
         })) || [];
@@ -181,7 +181,7 @@ export default function Big5SubmissionForm() {
             className="text-sm mb-6"
             style={{ fontFamily: 'Raleway, sans-serif', color: '#403f3e' }}
           >
-            We'll review your application and notify you via email. Good luck!
+            We&apos;ll review your application and notify you via email. Good luck!
           </p>
           <p
             className="text-xs mb-6"

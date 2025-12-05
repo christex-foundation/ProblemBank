@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://build.christex.foundation'),
   title: "ProblemBank",
   description: "Find inspiration for your next build with vetted ideas and step-by-step guidance",
   icons: {

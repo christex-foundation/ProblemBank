@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function PartnersSection() {
   return (
-    <section className="relative z-30 w-full py-16 md:py-24 bg-[#121212]">
+    <section className="relative w-full py-16 md:py-24 bg-[#f7efe3]">
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         {/* Heading */}
         <h2
@@ -12,7 +12,7 @@ export default function PartnersSection() {
             fontFamily: 'Decoy, sans-serif',
             fontSize: 'clamp(3rem, 8vw, 5rem)',
             fontWeight: 500,
-            color: '#f7efe3',
+            color: '#1e1e1e',
             transform: 'rotate(-1.5deg)',
           }}
         >
@@ -37,13 +37,13 @@ export default function PartnersSection() {
                   letterSpacing: '0.05em',
                 }}
               >
-                Organized By
+                Led By
               </span>
             </div>
             <div className="flex justify-center mb-4">
               <Image
                 src="/images/mocti-logo.png"
-                alt="Ministry of Communication, Technology & Innovation"
+                alt="Ministry of Information and Civic Education"
                 width={100}
                 height={100}
                 className="rounded-full"
@@ -52,11 +52,11 @@ export default function PartnersSection() {
             </div>
             <p
               className="text-sm"
-              style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#f7efe3' }}
+              style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#1e1e1e' }}
             >
-              Ministry of Communication,
+              Ministry of Information
               <br />
-              Technology & Innovation
+              and Civic Education (MoICE)
             </p>
           </div>
 
@@ -76,21 +76,21 @@ export default function PartnersSection() {
                   letterSpacing: '0.05em',
                 }}
               >
-                Supported By
+                In Partnership With
               </span>
             </div>
             <div className="space-y-4">
               <p
                 className="text-base"
-                style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#f7efe3' }}
+                style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#1e1e1e' }}
               >
-                Partner Organization
+                Civic & Development Institutions
               </p>
               <p
                 className="text-sm"
-                style={{ fontFamily: 'Raleway, sans-serif', color: '#f7efe3', opacity: 0.7 }}
+                style={{ fontFamily: 'Raleway, sans-serif', color: '#403f3e', opacity: 0.8 }}
               >
-                Supporting innovation in Sierra Leone
+                Supporting national civic transformation
               </p>
             </div>
           </div>
@@ -117,92 +117,16 @@ export default function PartnersSection() {
             <div className="space-y-4">
               <p
                 className="text-base"
-                style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#f7efe3' }}
+                style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#1e1e1e' }}
               >
                 Christex Foundation
               </p>
               <p
                 className="text-sm"
-                style={{ fontFamily: 'Raleway, sans-serif', color: '#f7efe3', opacity: 0.7 }}
+                style={{ fontFamily: 'Raleway, sans-serif', color: '#403f3e', opacity: 0.8 }}
               >
                 Building the next generation of innovators
               </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Prizes & Resources */}
-        <div
-          className="border-2 border-[#e8ddd0] rounded-[28px] bg-[#f7efe3] p-8 md:p-12"
-          style={{ transform: 'rotate(-0.5deg)' }}
-        >
-          <div
-            className="absolute inset-0 opacity-5 pointer-events-none rounded-[28px]"
-            style={{
-              backgroundImage: 'url(/images/6707b45e1c28f88fc781209a_noise.webp)',
-              backgroundSize: '200px 200px',
-              backgroundRepeat: 'repeat',
-            }}
-          />
-
-          <div className="relative z-10">
-            <h3
-              className="text-3xl md:text-4xl mb-6 text-center"
-              style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#1e1e1e' }}
-            >
-              PRIZES & SUPPORT
-            </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[
-                {
-                  place: '1st Place',
-                  prize: '$5,000',
-                  perks: ['Mentorship Program', 'Incubation Support', 'Media Coverage'],
-                },
-                {
-                  place: '2nd Place',
-                  prize: '$3,000',
-                  perks: ['Mentorship Program', 'Networking Opportunities', 'Media Coverage'],
-                },
-                {
-                  place: '3rd Place',
-                  prize: '$2,000',
-                  perks: ['Mentorship Program', 'Community Recognition', 'Certificate'],
-                },
-              ].map((award, idx) => (
-                <div
-                  key={award.place}
-                  className="text-center p-6 border-2 border-[#1e1e1e] rounded-[20px] bg-white"
-                  style={{ transform: `rotate(${[-1, 0, 1][idx]}deg)` }}
-                >
-                  <div
-                    className="text-sm mb-2"
-                    style={{
-                      fontFamily: 'Raleway, sans-serif',
-                      fontWeight: 700,
-                      color: '#E6B800',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    {award.place}
-                  </div>
-                  <div
-                    className="text-4xl mb-4"
-                    style={{ fontFamily: 'Decoy, sans-serif', fontWeight: 500, color: '#1e1e1e' }}
-                  >
-                    {award.prize}
-                  </div>
-                  <ul className="space-y-1 text-sm" style={{ fontFamily: 'Raleway, sans-serif' }}>
-                    {award.perks.map((perk, i) => (
-                      <li key={i} className="flex items-center justify-center gap-2">
-                        <span className="text-[#E6B800]">✓</span>
-                        <span>{perk}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
             </div>
           </div>
         </div>

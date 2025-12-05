@@ -4,57 +4,57 @@ import Image from 'next/image';
 export default function ChallengeThemes() {
   const challenges = [
     {
-      title: 'Digital Governance',
-      description: 'Build tools that increase transparency, efficiency, and citizen engagement in government services.',
+      title: 'Love Salone',
+      description: 'Develop platforms, content, and tools that empower young creators to produce authentic Sierra Leonean stories that strengthen unity, counter misinformation, and build a renewed sense of national belonging.',
       icon: '/images/6708d8d8f169898f7bd83ed0_heart_120.webp',
-      examples: ['E-Government Portals', 'Citizen Feedback Systems', 'Public Service Tracking'],
+      examples: ['Cultural Storytelling Platforms', 'Counter-Misinformation Tools', 'Civic Pride Content Creators'],
       bg: '#fffaf3',
       rotate: -1.5,
     },
     {
-      title: 'Healthcare Access',
-      description: 'Create solutions that improve healthcare delivery and access to medical services across Sierra Leone.',
+      title: 'Feed Salone',
+      description: 'Create civic-tech, communication, or community-driven solutions that increase public awareness, strengthen accountability, and boost youth engagement in the Feed Salone initiative.',
       icon: '/images/6707c6af78a3dd5acec5512e_flower_64.webp',
-      examples: ['Telemedicine Platforms', 'Health Records Systems', 'Appointment Scheduling'],
+      examples: ['Agricultural Extension Apps', 'Market Information Platforms', 'Farmer Feedback Systems'],
       bg: '#f2e8dc',
       rotate: 1.2,
     },
     {
-      title: 'Education & Skills',
-      description: 'Develop platforms that enhance learning opportunities and skill development for all citizens.',
-      icon: '/images/6707c6b0778d2c6671252c5f_book_64.webp',
-      examples: ['Online Learning Platforms', 'Skill Matching Systems', 'Educational Resources'],
+      title: 'Clean Salone',
+      description: 'Innovate tools or campaigns that promote environmental accountability, citizen-led waste management, climate awareness, and sustainable community practices.',
+      icon: '/images/6707c6aff10ed02bb97c61f9_brilliant_64.webp',
+      examples: ['Waste Tracking Apps', 'Community Cleanup Coordinators', 'Climate Action Platforms'],
       bg: '#fffaf3',
       rotate: -0.8,
     },
     {
-      title: 'Economic Empowerment',
-      description: 'Design tools that support local businesses, entrepreneurs, and job seekers in Sierra Leone.',
+      title: 'Heal Salone',
+      description: 'Design culturally appropriate, accurate, and accessible youth-led health innovation tools—ranging from digital platforms to creative media—that strengthen public trust in health systems.',
       icon: '/images/6708d8dfbf6d79d76ebd68eb_lightning_120.webp',
-      examples: ['Marketplace Platforms', 'Financial Literacy Tools', 'Job Matching Systems'],
+      examples: ['Health Literacy Platforms', 'Community Health Trackers', 'Vaccine Information Systems'],
       bg: '#f2e8dc',
       rotate: 1.5,
     },
     {
-      title: 'Public Safety',
-      description: 'Build systems that enhance community safety and emergency response capabilities.',
-      icon: '/images/6708d7e1e82809f4e18f8e05_flag_120.webp',
-      examples: ['Emergency Alert Systems', 'Crime Reporting Apps', 'Disaster Response Tools'],
+      title: 'Digitise Salone',
+      description: 'Create innovative digital solutions that improve access to public information, strengthen citizen–government interaction, enhance digital literacy, and support open governance.',
+      icon: '/images/6708d8d83911c95f3000bbfa_star_120.webp',
+      examples: ['E-Government Platforms', 'Digital Literacy Apps', 'Civic Transparency Tools'],
       bg: '#fffaf3',
       rotate: -1.2,
     },
     {
-      title: 'Environmental Sustainability',
-      description: 'Create solutions that promote environmental conservation and sustainable practices.',
-      icon: '/images/6707c6aff10ed02bb97c61f9_brilliant_64.webp',
-      examples: ['Waste Management Systems', 'Green Energy Tracking', 'Climate Action Tools'],
+      title: 'Salone Big Pas We All',
+      description: 'Develop tools, campaigns, storytelling platforms, or civic engagement initiatives that promote social cohesion, reduce polarization, and reinforce unity across political, regional, and generational divides.',
+      icon: '/images/6708d7e1e82809f4e18f8e05_flag_120.webp',
+      examples: ['Unity Storytelling Platforms', 'Cross-Community Dialogue Tools', 'Peacebuilding Apps'],
       bg: '#f2e8dc',
       rotate: 0.9,
     },
   ];
 
   return (
-    <section className="relative z-30 w-full py-16 md:py-24">
+    <section className="relative w-full py-16 md:py-24 bg-[#121212]">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* Heading */}
         <div className="text-center mb-4">
@@ -63,26 +63,26 @@ export default function ChallengeThemes() {
               fontFamily: 'Decoy, sans-serif',
               fontSize: 'clamp(3rem, 8vw, 5rem)',
               fontWeight: 500,
-              color: '#1e1e1e',
+              color: '#f7efe3',
               transform: 'rotate(-1.5deg)',
               display: 'inline-block',
             }}
           >
-            CHALLENGE TRACKS
+            THE SIX CIVIC PILLARS
           </h2>
         </div>
 
         <p
           className="text-center text-lg mb-12 max-w-3xl mx-auto"
-          style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#403f3e' }}
+          style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#f7efe3' }}
         >
-          Choose a track that aligns with your passion and skills. Each track focuses on solving real
-          problems faced by Sierra Leonean communities.
+          Choose one civic pillar and build youth-driven innovations that reinforce national unity,
+          strengthen trust in public institutions, and promote shared responsibility for development.
         </p>
 
         {/* Challenge Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {challenges.map((challenge, idx) => (
+          {challenges.map((challenge) => (
             <div
               key={challenge.title}
               className="relative border-2 border-[#1e1e1e] rounded-[28px] p-8 transition-all duration-300 hover:shadow-xl hover:scale-105"
@@ -123,49 +123,16 @@ export default function ChallengeThemes() {
 
                 {/* Description */}
                 <p
-                  className="text-sm leading-relaxed text-center mb-4"
+                  className="text-sm leading-relaxed text-center"
                   style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#403f3e' }}
                 >
                   {challenge.description}
                 </p>
-
-                {/* Examples */}
-                <div className="mt-auto pt-4 border-t border-gray-300">
-                  <p
-                    className="text-xs mb-2 text-center"
-                    style={{
-                      fontFamily: 'Raleway, sans-serif',
-                      fontWeight: 700,
-                      color: '#E6B800',
-                      textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                    }}
-                  >
-                    Example Projects
-                  </p>
-                  <ul className="space-y-1 text-xs" style={{ fontFamily: 'Raleway, sans-serif' }}>
-                    {challenge.examples.map((example, i) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <span className="text-[#E6B800]">•</span>
-                        <span>{example}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Bottom Note */}
-        <div className="mt-12 text-center">
-          <p
-            className="text-base"
-            style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 600, color: '#403f3e' }}
-          >
-            Don't see your idea listed? We welcome innovative solutions to any civic challenge!
-          </p>
-        </div>
       </div>
     </section>
   );
