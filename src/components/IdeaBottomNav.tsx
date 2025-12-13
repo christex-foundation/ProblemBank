@@ -6,9 +6,23 @@ import Link from 'next/link';
 interface IdeaBottomNavProps {
   previousIdea?: { title: string; slug: string } | null;
   nextIdea?: { title: string; slug: string } | null;
+  isCivicIdea?: boolean;
+  isBig5Idea?: boolean;
 }
 
-export default function IdeaBottomNav({ previousIdea, nextIdea }: IdeaBottomNavProps) {
+export default function IdeaBottomNav({ previousIdea, nextIdea, isCivicIdea, isBig5Idea }: IdeaBottomNavProps) {
+  // Determine the correct back link based on the idea category
+  const getBackLink = () => {
+    if (isCivicIdea) {
+      return '/ideas/civic';
+    }
+    if (isBig5Idea) {
+      return '/ideas/big5';
+    }
+    return '/ideas';
+  };
+
+  const backLink = getBackLink();
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#f9f2e9] border-t border-[#e8ddd0] h-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-12 h-full">
@@ -70,7 +84,7 @@ export default function IdeaBottomNav({ previousIdea, nextIdea }: IdeaBottomNavP
 
             {/* Center: Back to Ideas (Pill-shaped) */}
             <Link
-              href="/ideas"
+              href={backLink}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full border transition-colors hover:bg-[#f2e8dc] hover:border-[#d8cdbc]"
               style={{
                 fontFamily: 'Raleway, sans-serif',

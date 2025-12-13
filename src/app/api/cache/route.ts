@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { 
-  invalidateAllAirtableCache, 
-  invalidateIdeasCache, 
+import { revalidateTag } from 'next/cache';
+import {
+  invalidateAllAirtableCache,
+  invalidateIdeasCache,
   invalidateTechStackCache,
   getCacheInfo,
-  CACHE_TAGS 
+  CACHE_TAGS
 } from '@/lib/cache';
 
 /**
@@ -81,7 +82,9 @@ export async function POST(request: NextRequest) {
           );
         }
 
-        await Promise.all(tags.map(tag => import('next/cache').then(({ revalidateTag }) => revalidateTag(tag))));
+        for (const tag of tags) {
+          revalidateTag(tag, '/');
+        }
         return NextResponse.json({
           success: true,
           message: `Cache tags invalidated: ${tags.join(', ')}`,

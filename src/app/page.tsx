@@ -4,8 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState, useRef, memo } from 'react';
 import { kits as kitsData, slugifyTitle } from '../lib/kits';
-import HackathonStageBanner from '../components/HackathonStageBanner';
-import CivicHackathonBanner from '../components/CivicHackathonBanner';
 import FAQSection from '../components/FAQSection';
 import PRDKitModal from '../components/PRDKitModal';
 import PitchMasterKitModal from '../components/PitchMasterKitModal';
@@ -121,20 +119,11 @@ export default function Home() {
       {/* Shared Navigation */}
       <Navigation logoText="ProblemBank" />
 
-      {/* Civic Hackathon Banner */}
-      <div className="relative z-40">
-        <CivicHackathonBanner />
-      </div>
-
       {/* Hero Section */}
-      <main className="relative z-30 flex flex-col items-center justify-center min-h-screen px-4 md:px-8 pb-50">
-        {/* Hackathon Stage Banner */}
-        <div className="w-full top-8 left-0 right-0 z-10 mb-30 mt-10">
-          <HackathonStageBanner />
-        </div>
+      <main className="relative z-30 flex flex-col items-center justify-center min-h-screen px-4 md:px-8 pb-50 pt-32 md:pt-24">
         {/* PixelBlast Background with Feathered Hero Exclusion - Only in Hero */}
         {!isMobile && (
-          <div 
+          <div
             className="absolute inset-0 pointer-events-none z-0"
             style={{
               WebkitMaskImage: 'radial-gradient(ellipse 40% 50% at 50% 40%, transparent 15%, black 60%)',
@@ -160,7 +149,7 @@ export default function Home() {
             />
           </div>
         )}
-        <div className="relative z-50 text-center max-w-4xl mx-auto -mt-24">
+        <div className="relative z-50 text-center max-w-4xl mx-auto">
           {/* Main Heading */}
           <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-8xl leading-none tracking-tight text-[#1e1e1e] mb-6">
             <div
@@ -640,7 +629,7 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
   const ref = useRef<HTMLDivElement | null>(null);
 
   // Countdown
-  const [countdown, setCountdown] = useState<{ label: 'Starts in' | 'In Progress' | 'Completed'; days: number; hours: number; minutes: number; seconds: number }>({
+  const [countdown, setCountdown] = useState<{ label: 'Starts in' | 'In Progress' | 'Review in Progress' | 'Completed'; days: number; hours: number; minutes: number; seconds: number }>({
     label: 'Starts in',
     days: 0,
     hours: 0,
@@ -650,17 +639,27 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
 
   useEffect(() => {
     const START_DATE = new Date('2025-11-26T00:00:00Z'); // Sierra Leone (UTC+0)
-    const END_DATE = new Date('2025-12-06T00:00:00Z'); // End date start-of-day
+    const END_DATE = new Date('2025-12-06T00:00:00Z'); // Hackathon end date
+    const REVIEW_START = new Date('2025-12-08T00:00:00Z'); // Review period start
+    const REVIEW_END = new Date('2025-12-11T23:59:59Z'); // Review period end
 
     const tick = () => {
       const now = new Date();
       let target = START_DATE;
-      let label: 'Starts in' | 'In Progress' | 'Completed' = 'Starts in';
+      let label: 'Starts in' | 'In Progress' | 'Review in Progress' | 'Completed' = 'Starts in';
 
       if (now >= START_DATE && now < END_DATE) {
         target = END_DATE;
         label = 'In Progress';
-      } else if (now >= END_DATE) {
+      } else if (now >= END_DATE && now < REVIEW_START) {
+        // Between hackathon end and review start (Dec 6-8)
+        setCountdown({ label: 'Review in Progress', days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      } else if (now >= REVIEW_START && now <= REVIEW_END) {
+        // During review period (Dec 8-11)
+        setCountdown({ label: 'Review in Progress', days: 0, hours: 0, minutes: 0, seconds: 0 });
+        return;
+      } else if (now > REVIEW_END) {
         setCountdown({ label: 'Completed', days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;
       }
@@ -758,9 +757,9 @@ const HackathonAnnouncementSection = memo(function HackathonAnnouncementSection(
                 {/* Countdown */}
                 <div className="mt-6 flex flex-col items-center">
                   <span className="text-xs md:text-sm mb-2" style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700 }}>
-                    {countdown.label === 'Completed' ? 'Hackathon Completed' : countdown.label}
+                    {countdown.label === 'Completed' ? 'Hackathon Completed' : countdown.label === 'Review in Progress' ? 'Review in Progress (8th - 11th Dec)' : countdown.label}
                   </span>
-                  {countdown.label !== 'Completed' && (
+                  {countdown.label !== 'Completed' && countdown.label !== 'Review in Progress' && (
                     <div className="flex gap-4 md:gap-6">
                       {(['Days', 'Hours', 'Minutes', 'Seconds'] as const).map((unit, i) => {
                         const value = [countdown.days, countdown.hours, countdown.minutes, countdown.seconds][i];

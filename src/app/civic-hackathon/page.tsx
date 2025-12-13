@@ -2,8 +2,8 @@
 import { Navigation } from '../../components';
 import CivicHero from '../../components/civic/CivicHero';
 import AboutSection from '../../components/civic/AboutSection';
-import ChallengeThemes from '../../components/civic/ChallengeThemes';
-import RegistrationCTA from '../../components/civic/RegistrationCTA';
+import SixPillarsSection from '../../components/civic/SixPillarsSection';
+import SubmissionForm from '../../components/civic/SubmissionForm';
 
 export default function CivicHackathonPage() {
   return (
@@ -27,14 +27,14 @@ export default function CivicHackathonPage() {
       {/* Hero Section */}
       <CivicHero />
 
+      {/* Hidden SubmissionForm component - only provides modal functionality */}
+      <SubmissionForm />
+
       {/* About Section */}
       <AboutSection />
 
-      {/* Challenge Themes */}
-      <ChallengeThemes />
-
-      {/* Registration CTA */}
-      <RegistrationCTA />
+      {/* Six Pillars Section */}
+      <SixPillarsSection />
     </div>
   );
 }

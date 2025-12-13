@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { fetchIdeasPage } from '../../../lib/airtable';
+import { fetchCombinedIdeasPage } from '../../../lib/airtable';
 
 // Supports pagination via query params: pageSize, offset, categories (CSV)
 export async function GET(request: Request) {
@@ -19,7 +19,7 @@ export async function GET(request: Request) {
     // Parse search query if provided
     const searchQuery = searchParams.get('q') || undefined;
 
-    const { items, offset: nextOffset } = await fetchIdeasPage(pageSize, offset, categories.length ? categories : undefined, searchQuery);
+    const { items, offset: nextOffset } = await fetchCombinedIdeasPage(pageSize, offset, categories.length ? categories : undefined, searchQuery);
     
     const response = NextResponse.json({ items, offset: nextOffset }, { status: 200 });
     

@@ -1,6 +1,7 @@
 'use client';
 import { Navigation } from '../../components';
 import Big5Hero from '../../components/big5/Big5Hero';
+import ReviewStage from '../../components/big5/ReviewStage';
 import TrackOptionsSection from '../../components/big5/TrackOptionsSection';
 import FocusAreasSection from '../../components/big5/FocusAreasSection';
 import JudgingCriteria from '../../components/big5/JudgingCriteria';
@@ -26,6 +27,9 @@ export default function Big5Page() {
         <Navigation logoText="ProblemBank" />
       </div>
 
+       {/* Review Stage - Shows during review period */}
+       <ReviewStage />
+
       {/* Hero Section */}
       <Big5Hero />
 
@@ -41,8 +45,8 @@ export default function Big5Page() {
        {/* Prizes Section */}
        <PrizesSection />
 
-       {/* Application CTA Section */}
-       <ApplicationCTA />
+       {/* Application CTA Section - Hidden */}
+       {/* <ApplicationCTA /> */}
     </div>
   );
 }

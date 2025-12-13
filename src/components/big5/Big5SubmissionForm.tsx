@@ -13,6 +13,7 @@ export default function Big5SubmissionForm() {
   const [mounted, setMounted] = useState(false);
   const [ideas, setIdeas] = useState<Array<{ id: string; title: string }>>([]);
   const [loadingIdeas, setLoadingIdeas] = useState(false);
+  const [isBeforeDeadline, setIsBeforeDeadline] = useState(true);
 
   const [formData, setFormData] = useState({
     teamName: '',
@@ -37,6 +38,25 @@ export default function Big5SubmissionForm() {
   useEffect(() => {
     setMounted(true);
     return () => setMounted(false);
+  }, []);
+
+  // Check deadline in real-time
+  useEffect(() => {
+    const DEADLINE = new Date('2025-12-13T12:00:00Z');
+
+    const checkDeadline = () => {
+      const now = new Date();
+      const beforeDeadline = now < DEADLINE;
+      setIsBeforeDeadline(beforeDeadline);
+    };
+
+    // Check immediately
+    checkDeadline();
+
+    // Check every second
+    const interval = setInterval(checkDeadline, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   // Fetch ideas when modal opens
@@ -705,12 +725,21 @@ export default function Big5SubmissionForm() {
   return (
     <>
       <button
-        onClick={() => {
-          setIsOpen(true);
-          setError('');
-          setSuccess(false);
+        type="button"
+        onClick={(e) => {
+          e.preventDefault();
+          if (isBeforeDeadline) {
+            setIsOpen(true);
+            setError('');
+            setSuccess(false);
+          }
         }}
-        className="group relative overflow-hidden px-8 py-4 rounded-full bg-[#E6B800] text-[#1e1e1e] font-medium text-lg whitespace-nowrap transition-all duration-300 hover:scale-105"
+        disabled={!isBeforeDeadline}
+        className={`group relative overflow-hidden px-8 py-4 rounded-full font-medium text-lg whitespace-nowrap transition-all duration-300 ${
+          isBeforeDeadline
+            ? 'bg-[#E6B800] text-[#1e1e1e] hover:scale-105 cursor-pointer'
+            : 'bg-gray-400 text-gray-600 cursor-not-allowed opacity-60'
+        }`}
       >
         <div
           className="absolute inset-0 opacity-20 mix-blend-overlay"
@@ -720,9 +749,11 @@ export default function Big5SubmissionForm() {
             backgroundRepeat: 'repeat'
           }}
         />
-        <div className="absolute inset-0 bg-white transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100 rounded-full" />
-        <span className="relative z-10 transition-colors duration-300 group-hover:text-[#1e1e1e]">
-          Submit Your Application
+        {isBeforeDeadline && (
+          <div className="absolute inset-0 bg-white transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100 rounded-full" />
+        )}
+        <span className={`relative z-10 transition-colors duration-300 ${isBeforeDeadline ? 'group-hover:text-[#1e1e1e]' : ''}`}>
+          {isBeforeDeadline ? 'Submit Your Application' : 'Submissions Closed'}
         </span>
       </button>
 

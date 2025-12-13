@@ -33,7 +33,7 @@ export default function Big5Hero() {
   const isMobile = useIsMobile();
 
   const [countdown, setCountdown] = useState<{
-    label: 'Applications Open' | 'Bootcamp Starting' | 'Hackathon Live' | 'Completed';
+    label: 'Applications Open' | 'Bootcamp Starting' | 'Hackathon Live' | 'Review in Progress' | 'Completed';
     days: number;
     hours: number;
     minutes: number;
@@ -51,12 +51,13 @@ export default function Big5Hero() {
     const APP_END = new Date('2025-10-14T23:59:59Z');
     const BOOTCAMP_START = new Date('2025-10-27T00:00:00Z');
     const HACKATHON_START = new Date('2025-12-05T00:00:00Z');
-    const HACKATHON_END = new Date('2025-12-07T23:59:59Z');
+    const HACKATHON_END = new Date('2025-12-08T00:00:00Z');
+    const REVIEW_END = new Date('2025-12-17T23:59:59Z');
 
     const tick = () => {
       const now = new Date();
       let target = APP_START;
-      let label: 'Applications Open' | 'Bootcamp Starting' | 'Hackathon Live' | 'Completed' = 'Applications Open';
+      let label: 'Applications Open' | 'Bootcamp Starting' | 'Hackathon Live' | 'Review in Progress' | 'Completed' = 'Applications Open';
 
       if (now < APP_START) {
         target = APP_START;
@@ -73,6 +74,9 @@ export default function Big5Hero() {
       } else if (now >= HACKATHON_START && now < HACKATHON_END) {
         target = HACKATHON_END;
         label = 'Hackathon Live';
+      } else if (now >= HACKATHON_END && now < REVIEW_END) {
+        target = REVIEW_END;
+        label = 'Review in Progress';
       } else {
         setCountdown({ label: 'Completed', days: 0, hours: 0, minutes: 0, seconds: 0 });
         return;

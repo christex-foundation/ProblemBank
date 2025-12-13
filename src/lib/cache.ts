@@ -18,14 +18,12 @@ export const CACHE_TAGS = {
  */
 export async function invalidateAllAirtableCache() {
   try {
-    await Promise.all([
-      revalidateTag(CACHE_TAGS.FEATURED_IDEAS),
-      revalidateTag(CACHE_TAGS.IDEAS_PAGE),
-      revalidateTag(CACHE_TAGS.IDEA_BY_TITLE),
-      revalidateTag(CACHE_TAGS.CATEGORIES),
-      revalidateTag(CACHE_TAGS.TECH_STACKS),
-      revalidateTag(CACHE_TAGS.TECH_CATEGORIES),
-    ]);
+    revalidateTag(CACHE_TAGS.FEATURED_IDEAS, '/');
+    revalidateTag(CACHE_TAGS.IDEAS_PAGE, '/');
+    revalidateTag(CACHE_TAGS.IDEA_BY_TITLE, '/');
+    revalidateTag(CACHE_TAGS.CATEGORIES, '/');
+    revalidateTag(CACHE_TAGS.TECH_STACKS, '/');
+    revalidateTag(CACHE_TAGS.TECH_CATEGORIES, '/');
     console.log('All Airtable caches invalidated successfully');
   } catch (error) {
     console.error('Failed to invalidate Airtable caches:', error);
@@ -37,7 +35,9 @@ export async function invalidateAllAirtableCache() {
  */
 export async function invalidateCacheTags(tags: string[]) {
   try {
-    await Promise.all(tags.map(tag => revalidateTag(tag)));
+    for (const tag of tags) {
+      revalidateTag(tag, '/');
+    }
     console.log(`Cache tags invalidated: ${tags.join(', ')}`);
   } catch (error) {
     console.error('Failed to invalidate cache tags:', error);

@@ -6,16 +6,17 @@ export default function AboutSection() {
       <div className="mx-auto max-w-6xl px-4 md:px-8">
         {/* Heading */}
         <h2
-          className="text-center mb-12"
+          className="text-center mb-12 leading-tight"
           style={{
             fontFamily: 'Decoy, sans-serif',
-            fontSize: 'clamp(3rem, 8vw, 5rem)',
+            fontSize: 'clamp(2.5rem, 7vw, 5rem)',
             fontWeight: 500,
             color: '#1e1e1e',
             transform: 'rotate(-1.5deg)',
           }}
         >
-          ABOUT THE EVENT
+          <div>ABOUT THE</div>
+          <div>EVENT</div>
         </h2>
 
         {/* Content Grid */}

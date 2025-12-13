@@ -2,20 +2,48 @@ import { Navigation } from '../../../components';
 import { fetchIdeaBySlug, fetchAllIdeasMinimal } from '../../../lib/airtable';
 import IdeaSidebar from '../../../components/IdeaSidebar';
 import BuildersKitsClient from '../../../components/BuildersKitsClient';
+import GitHubRepoCard from '../../../components/GitHubRepoCard';
 import IdeaBottomNav from '../../../components/IdeaBottomNav';
 
 export default async function IdeaDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const idea = await fetchIdeaBySlug(slug);
-  
+
+  // Determine if this is a content track idea (no tools/builder kits needed)
+  // Content track ideas are identified by specific category names
+  const contentTrackCategories = [
+    'Love Salone - Content Track',
+    'Feed Salone - Content Track',
+    'Clean Salone - Content Track',
+    'Heal Salone - Content Track',
+    'Digitise Salone - Content Track',
+    'Salone Big Pas We All Content'
+  ];
+  const isContentTrack = idea?.category && contentTrackCategories.includes(idea.category);
+
+  // Determine if this is a civic idea (for navigation purposes)
+  const isCivicIdea = !!(idea?.category && (
+    idea.category.includes('Salone') ||
+    idea.category.includes('Content')
+  ));
+
+  // Determine if this is a Big 5 idea
+  const big5Categories = [
+    'Human Capital Development',
+    'Youth Employment Scheme',
+    'Public Service Architecture Revamp',
+    'Tech and Infrastructure'
+  ];
+  const isBig5Idea = !!(idea?.category && big5Categories.includes(idea.category));
+
   // Fetch all ideas for navigation
   const allIdeas = await fetchAllIdeasMinimal();
   const currentIndex = allIdeas.findIndex(item => item.slug === slug);
-  
+
   // Calculate previous and next ideas with circular navigation
-  const previousIdea = currentIndex > 0 ? allIdeas[currentIndex - 1] : 
+  const previousIdea = currentIndex > 0 ? allIdeas[currentIndex - 1] :
                       allIdeas.length > 1 ? allIdeas[allIdeas.length - 1] : null;
-  const nextIdea = currentIndex < allIdeas.length - 1 ? allIdeas[currentIndex + 1] : 
+  const nextIdea = currentIndex < allIdeas.length - 1 ? allIdeas[currentIndex + 1] :
                    allIdeas.length > 1 ? allIdeas[0] : null;
 
   return (
@@ -39,9 +67,9 @@ export default async function IdeaDetailPage({ params }: { params: Promise<{ slu
           <>
             {/* Two-column section: Main content + Sidebar */}
             <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-12 py-16 md:py-20 lg:py-24">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+              <div className={`grid grid-cols-1 ${!isContentTrack || idea.repo ? 'lg:grid-cols-3' : ''} gap-8 lg:gap-12`}>
                 {/* Main Content - Left Column */}
-                <div className="lg:col-span-2">
+                <div className={!isContentTrack || idea.repo ? 'lg:col-span-2' : ''}>
                   <div className="mb-12 text-center lg:text-left">
                     <h1 className="uppercase tracking-tight text-5xl md:text-6xl lg:text-7xl text-center lg:text-left"
                         style={{ fontFamily: 'Decoy, sans-serif', color: '#403f3e', fontWeight: 500 }}>
@@ -56,7 +84,7 @@ export default async function IdeaDetailPage({ params }: { params: Promise<{ slu
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Problem & Proposed Solution sections */}
                   {idea.problem && typeof idea.problem === 'string' && idea.problem.trim().length > 0 && (
                     <section className="mt-10 text-center lg:text-left">
@@ -87,20 +115,30 @@ export default async function IdeaDetailPage({ params }: { params: Promise<{ slu
                 </div>
 
                 {/* Sidebar - Right Column */}
-                <div className="lg:col-span-1">
-                  <IdeaSidebar
-                    category={idea.category}
-                    problemText={idea.problem}
-                    solutionText={idea.solution || idea.blurb}
-                    repo={idea.repo}
-                    ideaTitle={idea.title}
-                  />
-                </div>
+                {!isContentTrack ? (
+                  // For Big5 and Tech track: Show full sidebar with tools
+                  <div className="lg:col-span-1">
+                    <IdeaSidebar
+                      category={idea.category}
+                      problemText={idea.problem}
+                      solutionText={idea.solution || idea.blurb}
+                      repo={idea.repo}
+                      ideaTitle={idea.title}
+                    />
+                  </div>
+                ) : (
+                  // For Content track: Only show GitHub repo if available
+                  idea.repo && (
+                    <div className="lg:col-span-1">
+                      <GitHubRepoCard repoUrl={idea.repo} index={0} />
+                    </div>
+                  )
+                )}
               </div>
             </div>
 
-            {/* Full-width Builder's Kits Section */}
-            {(() => {
+            {/* Full-width Builder's Kits Section - Only for Big5 and Tech track */}
+            {!isContentTrack && (() => {
               const s = typeof idea.solution === 'string' ? idea.solution.trim() : '';
               const b = typeof idea.blurb === 'string' ? idea.blurb.trim() : '';
               const solutionText = s.length > 0 ? s : b;
@@ -123,9 +161,11 @@ export default async function IdeaDetailPage({ params }: { params: Promise<{ slu
       </main>
       
       {/* Bottom Navigation */}
-      <IdeaBottomNav 
+      <IdeaBottomNav
         previousIdea={previousIdea}
         nextIdea={nextIdea}
+        isCivicIdea={isCivicIdea}
+        isBig5Idea={isBig5Idea}
       />
     </div>
   );

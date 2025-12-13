@@ -4,6 +4,15 @@ import Link from 'next/link';
 import Big5SubmissionForm from './Big5SubmissionForm';
 
 const ApplicationCTA = memo(function ApplicationCTA() {
+  // Check if deadline has passed (Dec 13, 2025 at 12:00 UTC - Noon)
+  const deadline = new Date('2025-12-13T12:00:00Z');
+  const isBeforeDeadline = new Date() < deadline;
+
+  // Don't render anything if deadline has passed
+  if (!isBeforeDeadline) {
+    return null;
+  }
+
   return (
     <section className="relative z-30 w-full py-16 md:py-20 lg:py-24" style={{ backgroundColor: '#f9f2e9' }}>
       <div className="mx-auto max-w-7xl px-4 md:px-8">

@@ -1,12 +1,12 @@
 import { Navigation } from '../../components';
-import { fetchIdeasPage, fetchAllCategories } from '../../lib/airtable';
+import { fetchCombinedIdeasPage, fetchCombinedCategories } from '../../lib/airtable';
 import Link from 'next/link';
 import Image from 'next/image';
 import IdeasInfiniteLoader from './InfiniteLoader';
 
 // Category captions mapping
 const CATEGORY_CAPTIONS: Record<string, string> = {
-  'All': 'The Big 5: Pillars of Sierra Leone\'s National Transformation',
+  'All': '',
   'Feed Salone': 'This initiative aims to revolutionize Sierra Leone\'s agricultural sector by leveraging AI and other technologies to boost food security, increase production, and build resilience against climate change.',
   'Human Capital Development': 'By leveraging inclusive educational technology (EdTech), this initiative is empowering Sierra Leoneans with the skills needed to thrive in the digital age, ensuring a competitive and future-ready workforce.',
   'Youth Employment Scheme': 'The YES! initiative aims to combat youth unemployment by fostering the gig economy and building robust digital employment platforms to connect young Sierra Leoneans with local and global opportunities.',
@@ -60,23 +60,62 @@ export default async function IdeasPage({ searchParams }: { searchParams?: Promi
   const categoriesCsv = (params?.categories as string) || '';
   const categories = categoriesCsv.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
 
-  // Server-side rendering: fetch first page with filters
-  const { items, offset } = await fetchIdeasPage(16, undefined, categories.length ? categories : undefined);
+  // Server-side rendering: fetch first page with filters from BOTH bases
+  // Fetch more items initially to show all available ideas (we have ~30 total)
+  const { items, offset } = await fetchCombinedIdeasPage(50, undefined, categories.length ? categories : undefined);
 
-  // Dynamic chips from Airtable
-  const allCats = await fetchAllCategories();
+  // Dynamic chips from Airtable - combined from both bases
+  const allCats = await fetchCombinedCategories();
+
+  // Separate categories into Big 5 and Civic
+  const big5Categories = allCats.filter(cat =>
+    ['Human Capital Development', 'Youth Employment Scheme', 'Public Service Architecture Revamp', 'Tech and Infrastructure'].includes(cat)
+  );
+
+  // Extract unique civic main categories (without the track suffixes)
+  const civicMainCategories = ['Love Salone', 'Heal Salone', 'Digitise Salone', 'Feed Salone', 'Clean Salone', 'Salone Big Pas We All'];
+
+  // Get all civic subcategories (with track suffixes)
+  const civicCategories = allCats.filter(cat =>
+    cat.includes('Salone') || cat.includes('Content')
+  );
+
+  // Detect which group is active based on selected categories
+  const isBig5Active = categories.length > 0 && categories.every(cat => big5Categories.includes(cat));
+  const isCivicActive = categories.length > 0 && categories.every(cat => civicCategories.includes(cat));
+  const isAllActive = categories.length === 0;
+
+  // Check if "All Big 5" or "All Civic" should be selected (when all subcategories of that group are selected)
+  const isAllBig5Selected = isBig5Active && categories.length === big5Categories.length;
+  const isAllCivicSelected = isCivicActive && categories.length === civicCategories.length;
 
   // active map for highlighting
   const active = new Set(categories);
 
-  // Build chip links: multi-select OR via CSV param
-  const chipHref = (label: string): string => {
+  // Build chip links: single-select (replaces current selection)
+  const chipHref = (label: string, isCivicMainCategory = false): string => {
     if (label === 'All') return '/ideas';
-    const next = new Set(active);
-    if (next.has(label)) next.delete(label); else next.add(label);
-    const values = Array.from(next);
-    const qs = values.length ? `?categories=${encodeURIComponent(values.join(','))}` : '';
-    return `/ideas${qs}`;
+
+    // For civic main categories (e.g., "Love Salone"), include all related subcategories
+    if (isCivicMainCategory) {
+      const relatedCategories = civicCategories.filter(cat => cat.startsWith(label));
+      return `/ideas?categories=${encodeURIComponent(relatedCategories.join(','))}`;
+    }
+
+    // Single-select: clicking a subcategory shows only that category
+    return `/ideas?categories=${encodeURIComponent(label)}`;
+  };
+
+  // Group link builder
+  const groupHref = (groupName: string): string => {
+    if (groupName === 'all') return '/ideas';
+    if (groupName === 'big5') {
+      return '/ideas/big5';
+    }
+    if (groupName === 'civic') {
+      return '/ideas/civic';
+    }
+    return '/ideas';
   };
 
   // SSR global index starts at 1 for the first item on a filtered page
@@ -97,44 +136,136 @@ export default async function IdeasPage({ searchParams }: { searchParams?: Promi
               <div>All</div> <div>Ideas</div>
             </h1>
 
-            {/* Filtering UI (chips) - dynamic from Airtable */}
-            <div className="mt-6 flex flex-wrap justify-center gap-3">
-              {/* All chip */}
+            {/* Main Group Navigation */}
+            <div className="mt-6 flex justify-center gap-4">
               <Link
-                href={chipHref('All')}
-                className={`px-3 py-1 rounded-full border text-sm ${active.size === 0 ? 'ring-2 ring-[#d8cdbc]' : ''}`}
-                style={{ borderColor: '#d8cdbc', color: '#403f3e', backgroundColor: active.size === 0 ? '#f2e8dc' : '#fffaf3' }}
+                href="/ideas"
+                className={`px-6 py-2 rounded-full border-2 text-base font-semibold transition-all ${
+                  isAllActive ? 'ring-2 ring-[#d8cdbc] scale-105' : ''
+                }`}
+                style={{
+                  borderColor: '#d8cdbc',
+                  color: '#403f3e',
+                  backgroundColor: isAllActive ? '#f2e8dc' : '#fffaf3'
+                }}
               >
                 All
               </Link>
-              {allCats.map((label) => (
-                <Link
-                  key={label}
-                  href={chipHref(label)}
-                  className={`px-3 py-1 rounded-full border text-sm ${active.has(label) ? 'ring-2 ring-[#d8cdbc]' : ''}`}
-                  style={{ borderColor: '#d8cdbc', color: '#403f3e', backgroundColor: active.has(label) ? '#f2e8dc' : '#fffaf3' }}
-                >
-                  {label}
-                </Link>
-              ))}
+              <Link
+                href={groupHref('big5')}
+                className={`px-6 py-2 rounded-full border-2 text-base font-semibold transition-all ${
+                  isBig5Active ? 'ring-2 ring-[#d8cdbc] scale-105' : ''
+                }`}
+                style={{
+                  borderColor: '#d8cdbc',
+                  color: '#403f3e',
+                  backgroundColor: isBig5Active ? '#f2e8dc' : '#fffaf3'
+                }}
+              >
+                Big 5
+              </Link>
+              <Link
+                href={groupHref('civic')}
+                className={`px-6 py-2 rounded-full border-2 text-base font-semibold transition-all ${
+                  isCivicActive ? 'ring-2 ring-[#d8cdbc] scale-105' : ''
+                }`}
+                style={{
+                  borderColor: '#d8cdbc',
+                  color: '#403f3e',
+                  backgroundColor: isCivicActive ? '#f2e8dc' : '#fffaf3'
+                }}
+              >
+                Civic
+              </Link>
             </div>
+
+            {/* Subcategory chips - show Big 5 subcategories when Big 5 is active */}
+            {isBig5Active && (
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                {/* All chip */}
+                <Link
+                  href={groupHref('big5')}
+                  className={`px-3 py-1 rounded-full border text-sm font-semibold ${
+                    isAllBig5Selected ? 'ring-2 ring-[#d8cdbc]' : ''
+                  }`}
+                  style={{
+                    borderColor: '#d8cdbc',
+                    color: '#403f3e',
+                    backgroundColor: isAllBig5Selected ? '#f2e8dc' : '#fffaf3'
+                  }}
+                >
+                  All
+                </Link>
+                {big5Categories.map((label) => {
+                  const isSelected = categories.length === 1 && categories[0] === label;
+                  return (
+                    <Link
+                      key={label}
+                      href={chipHref(label)}
+                      className={`px-3 py-1 rounded-full border text-sm ${isSelected ? 'ring-2 ring-[#d8cdbc]' : ''}`}
+                      style={{ borderColor: '#d8cdbc', color: '#403f3e', backgroundColor: isSelected ? '#f2e8dc' : '#fffaf3' }}
+                    >
+                      {label}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Subcategory chips - show Civic subcategories when Civic is active */}
+            {isCivicActive && (
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                {/* All chip */}
+                <Link
+                  href={groupHref('civic')}
+                  className={`px-3 py-1 rounded-full border text-sm font-semibold ${
+                    isAllCivicSelected ? 'ring-2 ring-[#d8cdbc]' : ''
+                  }`}
+                  style={{
+                    borderColor: '#d8cdbc',
+                    color: '#403f3e',
+                    backgroundColor: isAllCivicSelected ? '#f2e8dc' : '#fffaf3'
+                  }}
+                >
+                  All
+                </Link>
+                {civicMainCategories.map((mainCat) => {
+                  // Check if this main category is selected (all its related subcategories are in the URL)
+                  const relatedCategories = civicCategories.filter(cat => cat.startsWith(mainCat));
+                  const isSelected = relatedCategories.length > 0 &&
+                    relatedCategories.every(cat => categories.includes(cat)) &&
+                    categories.every(cat => relatedCategories.includes(cat));
+
+                  return (
+                    <Link
+                      key={mainCat}
+                      href={chipHref(mainCat, true)}
+                      className={`px-3 py-1 rounded-full border text-sm ${isSelected ? 'ring-2 ring-[#d8cdbc]' : ''}`}
+                      style={{ borderColor: '#d8cdbc', color: '#403f3e', backgroundColor: isSelected ? '#f2e8dc' : '#fffaf3' }}
+                    >
+                      {mainCat}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
 
             {/* Category Caption */}
             {(categories.length > 0 || active.size === 0) && (
               <div className="mt-6 text-center max-w-2xl mx-auto">
-                <p 
+                <p
                   className="text-lg md:text-xl"
-                  style={{ 
-                    fontFamily: 'Raleway, sans-serif', 
+                  style={{
+                    fontFamily: 'Raleway, sans-serif',
                     color: '#403f3e',
-                    fontStyle: 'italic' 
+                    fontStyle: 'italic'
                   }}
                 >
-                  {categories.length === 0 
+                  {categories.length === 0
                     ? CATEGORY_CAPTIONS['All']
-                    : categories.length === 1 
+                    : categories.length === 1
                       ? CATEGORY_CAPTIONS[categories[0]]
-                      : `Cross-cutting solutions spanning ${categories.join(' and ')} - innovative approaches that address multiple national priorities simultaneously.`
+                      : CATEGORY_CAPTIONS['All']
                   }
                 </p>
               </div>

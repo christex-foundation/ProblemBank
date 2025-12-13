@@ -1,14 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import dynamic from 'next/dynamic';
-
-const CivicRegistrationModal = dynamic(() => import('./CivicRegistrationModal'), {
-  ssr: false,
-});
 
 export default function CivicHero() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [countdown, setCountdown] = useState<{
     days: number;
     hours: number;
@@ -21,8 +15,12 @@ export default function CivicHero() {
     seconds: 0,
   });
 
+  // Check if submissions are still open (before Dec 13 midnight GMT - when countdown hits 0)
+  const submissionDeadline = new Date('2025-12-13T23:59:59Z');
+  const [isBeforeDeadline, setIsBeforeDeadline] = useState(true);
+
   useEffect(() => {
-    const targetDate = new Date('2025-12-11T09:00:00Z'); // Customize event date
+    const targetDate = new Date('2025-12-13T23:59:59Z'); // Hackathon ends Dec 13th, midnight GMT (when countdown hits 0)
 
     const updateCountdown = () => {
       const now = new Date();
@@ -34,6 +32,7 @@ export default function CivicHero() {
       const seconds = Math.floor((diff / 1000) % 60);
 
       setCountdown({ days, hours, minutes, seconds });
+      setIsBeforeDeadline(now < submissionDeadline);
     };
 
     updateCountdown();
@@ -126,62 +125,33 @@ export default function CivicHero() {
         />
 
         <div className="relative z-10">
-          {/* Date & Location */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            <div className="text-center md:text-left">
-              <div className="inline-flex items-center gap-2 mb-3">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="3" y="6" width="18" height="15" rx="2" stroke="white" strokeWidth="2"/>
-                  <path d="M3 10H21" stroke="white" strokeWidth="2"/>
-                  <path d="M8 3V7" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M16 3V7" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-                <span
-                  style={{
-                    fontFamily: 'Raleway, sans-serif',
-                    fontWeight: 700,
-                    fontSize: '12px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    color: '#ffffff',
-                    opacity: 0.8,
-                  }}
-                >
-                  Date
-                </span>
-              </div>
-              <p style={{ fontFamily: 'Decoy, sans-serif', fontSize: '28px', fontWeight: 500, color: '#ffffff', lineHeight: 1.2 }}>
-                December 11-13, 2025
-              </p>
+          {/* Location */}
+          <div className="mb-8 text-center">
+            <div className="inline-flex items-center gap-2 mb-3 justify-center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21C16.4183 21 20 17.4183 20 13C20 8.58172 16.4183 5 12 5C7.58172 5 4 8.58172 4 13C4 17.4183 7.58172 21 12 21Z" stroke="white" strokeWidth="2"/>
+                <path d="M12 9V13L15 15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+              <span
+                style={{
+                  fontFamily: 'Raleway, sans-serif',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  color: '#ffffff',
+                  opacity: 0.8,
+                }}
+              >
+                Location
+              </span>
             </div>
-
-            <div className="text-center md:text-left">
-              <div className="inline-flex items-center gap-2 mb-3">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 21C16.4183 21 20 17.4183 20 13C20 8.58172 16.4183 5 12 5C7.58172 5 4 8.58172 4 13C4 17.4183 7.58172 21 12 21Z" stroke="white" strokeWidth="2"/>
-                  <path d="M12 9V13L15 15" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-                </svg>
-                <span
-                  style={{
-                    fontFamily: 'Raleway, sans-serif',
-                    fontWeight: 700,
-                    fontSize: '12px',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                    color: '#ffffff',
-                    opacity: 0.8,
-                  }}
-                >
-                  Location
-                </span>
-              </div>
-              <p style={{ fontFamily: 'Decoy, sans-serif', fontSize: '28px', fontWeight: 500, color: '#ffffff', lineHeight: 1.2 }}>
-                Miatta Conference Center
-              </p>
-              <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: '14px', fontWeight: 600, color: '#ffffff', opacity: 0.7, marginTop: '4px' }}>
-                Freetown, Sierra Leone
-              </p>
-            </div>
+            <p style={{ fontFamily: 'Decoy, sans-serif', fontSize: '28px', fontWeight: 500, color: '#ffffff', lineHeight: 1.2 }}>
+              Miatta Civic Center Youyi Building
+            </p>
+            <p style={{ fontFamily: 'Raleway, sans-serif', fontSize: '14px', fontWeight: 600, color: '#ffffff', opacity: 0.7, marginTop: '4px' }}>
+              Freetown, Sierra Leone
+            </p>
           </div>
 
           {/* Countdown */}
@@ -190,9 +160,9 @@ export default function CivicHero() {
               className="text-center mb-4"
               style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700, fontSize: '14px', color: '#ffffff' }}
             >
-              EVENT STARTS IN
+              HACKATHON ENDS
             </p>
-            <div className="flex justify-center gap-4 md:gap-8">
+            <div className="flex justify-center gap-4 md:gap-8 mb-8">
               {(['Days', 'Hours', 'Minutes', 'Seconds'] as const).map((unit, i) => {
                 const value = [countdown.days, countdown.hours, countdown.minutes, countdown.seconds][i];
                 return (
@@ -213,51 +183,53 @@ export default function CivicHero() {
                 );
               })}
             </div>
+
+            {/* Submit Project Button */}
+            <div className="border-t-2 border-white/20 pt-6">
+              <div className="text-center">
+                <p
+                  className="mb-4"
+                  style={{ fontFamily: 'Raleway, sans-serif', fontWeight: 700, fontSize: '14px', color: '#ffffff', opacity: 0.8 }}
+                >
+                  {isBeforeDeadline ? 'READY TO SUBMIT?' : 'SUBMISSION PERIOD ENDED'}
+                </p>
+                <button
+                  onClick={() => {
+                    if (isBeforeDeadline) {
+                      const event = new CustomEvent('openSubmissionModal');
+                      window.dispatchEvent(event);
+                    }
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.transform = 'scale(1.05)';
+                      e.currentTarget.style.backgroundColor = '#c49838';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!e.currentTarget.disabled) {
+                      e.currentTarget.style.transform = 'scale(1)';
+                      e.currentTarget.style.backgroundColor = '#d4a843';
+                    }
+                  }}
+                  disabled={!isBeforeDeadline}
+                  className="inline-flex items-center justify-center px-8 py-4 rounded-full border-2 border-[#1e1e1e] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    fontFamily: 'Raleway, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '16px',
+                    backgroundColor: '#d4a843',
+                    color: '#1e1e1e',
+                  }}
+                >
+                  {isBeforeDeadline ? 'Submit Your Project' : 'Submissions Closed'}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md mx-auto justify-center">
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="group relative overflow-hidden w-full px-8 py-4 rounded-full bg-[#E6B800] border-2 border-[#1e1e1e] text-[#1e1e1e] font-medium text-lg text-center transition-all duration-300 hover:scale-105"
-        >
-          <div
-            className="absolute inset-0 opacity-20 mix-blend-overlay"
-            style={{
-              backgroundImage: 'url(/images/6707b45e1c28f88fc781209a_noise.webp)',
-              backgroundSize: '200px 200px',
-              backgroundRepeat: 'repeat',
-            }}
-          />
-          <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100 rounded-full" />
-          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-            Register Now
-          </span>
-        </button>
-
-        {/* <a
-          href="/"
-          className="group relative overflow-hidden w-full px-8 py-4 rounded-full bg-transparent border-2 border-gray-400 text-gray-700 font-medium text-lg text-center transition-all duration-300 hover:scale-105"
-        >
-          <div
-            className="absolute inset-0 opacity-10 mix-blend-overlay"
-            style={{
-              backgroundImage: 'url(/images/6707b45e1c28f88fc781209a_noise.webp)',
-              backgroundSize: '200px 200px',
-              backgroundRepeat: 'repeat',
-            }}
-          />
-          <div className="absolute inset-0 bg-black transform scale-x-0 origin-left transition-transform duration-500 ease-out group-hover:scale-x-100 rounded-full" />
-          <span className="relative z-10 transition-colors duration-300 group-hover:text-white">
-            View Ideas
-          </span>
-        </a> */}
-      </div>
-
-      {/* Registration Modal */}
-      <CivicRegistrationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </section>
   );
 }

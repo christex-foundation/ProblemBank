@@ -10,7 +10,7 @@ export interface BrandingKitCardProps {
   description?: string;
   tags?: string[];
   items?: string[];
-  moreLabel?: string; // e.g., "+1 more" or "+2 more"
+  moreLabel?: string;
   iconSrc?: string;
 }
 

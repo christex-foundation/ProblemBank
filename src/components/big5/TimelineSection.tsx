@@ -33,10 +33,17 @@ const TimelineSection = memo(function TimelineSection() {
     },
     {
       title: 'Final Hackathon',
-      date: 'Dec 5 – 7, 2025',
+      date: 'Dec 5 – 8, 2025',
       description: '48-hour non-stop event to finalize projects and pitch to judges',
       icon: '🚀',
       color: '#fffaf3',
+    },
+    {
+      title: 'Review in Progress',
+      date: 'Dec 8 – 17, 2025',
+      description: 'Our team reviews all submissions and selects winners',
+      icon: '🔍',
+      color: '#f2e8dc',
     },
   ];
 
